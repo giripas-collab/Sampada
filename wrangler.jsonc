@@ -2,6 +2,8 @@
   "name": "sampada",
   "compatibility_date": "2026-01-01",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash"
   }
 }
