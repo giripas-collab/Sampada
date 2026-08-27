@@ -239,7 +239,7 @@
   .adcard p{ font-size:10.5px; color:var(--sub); }
 
   .bottomnav{
-    display:flex; justify-content:space-around; align-items:center;
+    display:flex; justify-space-around; align-items:center;
     background:#fff; padding:12px 0 18px; border-top:1px solid var(--line);
     position:sticky; bottom:0; z-index:20;
   }
@@ -578,11 +578,23 @@
 </div>
 
 <script>
+// Hash Navigation Handler for SPA & Cloudflare compatibility
 function showView(id){
+  window.location.hash = id;
+}
+
+function renderViewFromHash(){
+  let hash = window.location.hash.substring(1);
+  if(!hash || !document.getElementById(hash)){
+    hash = 'view-home';
+  }
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
-  document.getElementById(id).classList.add('active');
+  document.getElementById(hash).classList.add('active');
   window.scrollTo(0,0);
 }
+
+window.addEventListener('hashchange', renderViewFromHash);
+window.addEventListener('DOMContentLoaded', renderViewFromHash);
 
 // Firebase Init
 const firebaseConfig = {
@@ -604,7 +616,6 @@ let liveAds = [];
    DYNAMIC POSTS LOADING (FRONT PAGE + INNER PAGES)
 ===================================================== */
 function loadAdminPosts(){
-  // 1. ಆಂತರಿಕ ಪುಟಗಳಿಗೆ (Inner Pages 1 to 6) ಲೋಡ್ ಮಾಡುವುದು
   for(let i=1; i<=6; i++){
     const container = document.getElementById("dynamic-home-" + i);
     if(container){
@@ -622,7 +633,6 @@ function loadAdminPosts(){
     }
   }
 
-  // 2. ಮುಖಪುಟದ ವಿಭಾಗ 3 (ಇಂದು ತಪ್ಪದೇ ನೋಡಿ)
   const scrollSec3 = document.getElementById("home-hscroll-sec-3");
   const postsSec3 = livePosts.filter(p => p.section === "home-3");
   if(scrollSec3){
@@ -640,7 +650,6 @@ function loadAdminPosts(){
     });
   }
 
-  // 3. ಮುಖಪುಟದ ವಿಭಾಗ 4 (ನೋಡಲೇಬೇಕಾದವು)
   const scrollSec4 = document.getElementById("home-hscroll-sec-4");
   const postsSec4 = livePosts.filter(p => p.section === "home-4");
   if(scrollSec4){
@@ -658,7 +667,6 @@ function loadAdminPosts(){
     });
   }
 
-  // 4. ಮುಖಪುಟದ ವಿಭಾಗ 5 (ಪತ್ರಿಕೆ ಲೇಖನಗಳು)
   const articlesSec5 = document.getElementById("dynamic-home-articles");
   const postsSec5 = livePosts.filter(p => p.section === "home-5");
   if(articlesSec5){
@@ -677,7 +685,6 @@ function loadAdminPosts(){
     });
   }
 
-  // 5. ಮುಖಪುಟದ ವಿಭಾಗ 6 (ಮ್ಯೂಸಿಕ್ಸ್)
   const scrollSec6 = document.getElementById("home-hscroll-sec-6");
   const postsSec6 = livePosts.filter(p => p.section === "home-6");
   if(scrollSec6){
