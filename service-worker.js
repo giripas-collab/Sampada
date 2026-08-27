@@ -1,8 +1,4 @@
-/* ==========================================================
-   ಸಂಪದ — Service Worker (PWA Offline Cache)
-========================================================== */
-
-const CACHE_NAME = "sampada-cache-v2";
+const CACHE_NAME = "sampada-cache-v3";
 
 const CACHE_FILES = [
   "./",
@@ -56,6 +52,7 @@ self.addEventListener("fetch", function(event){
         if(event.request.mode === "navigate"){
           return caches.match("./index.html");
         }
+        return new Response("", { status: 408, statusText: "Offline" });
       });
     })
   );
