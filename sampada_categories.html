@@ -43,6 +43,7 @@ body{
   padding:8px 20px 14px;
 }
 .brand{font-size:30px; font-weight:800; color:var(--blue-1); letter-spacing:.5px;}
+.tagline{font-size:11px; color:var(--sub); font-weight:600; margin-top:-4px; margin-bottom:6px;}
 .top-icons{display:flex; gap:12px; align-items:center;}
 .icon-btn{
   width:38px; height:38px; border-radius:50%; background:#fff;
@@ -224,7 +225,10 @@ body{
     </div>
 
     <div class="topbar">
-      <div class="brand">ಸಂಪದ</div>
+      <div>
+        <div class="brand">ಸಂಪದ</div>
+        <div class="tagline">ಮಾಸಿ ಹೋಗುವ ಮುನ್ನ.. ಒಮ್ಮೆ ತಿರುಗಿ ನೋಡಿ..</div>
+      </div>
       <div class="top-icons">
         <div class="icon-btn" onclick="window.location.href='index.html'">🔍</div>
         <div class="icon-btn" onclick="window.location.href='ad-submit.html'">📢</div>
@@ -560,7 +564,7 @@ function showGrid(){
 }
 
 var AD_ROTATION_MINUTES = 10;
-var APP_SHARE_LINK = "https://sampada.app";
+var APP_SHARE_LINK = "https://sampadaa.pages.dev";
 
 function getAdsForSlot(slotId){
   var today = new Date();
