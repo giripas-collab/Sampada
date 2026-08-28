@@ -1,8 +1,9 @@
 /* ==========================================================
    ಸಂಪದ — Service Worker (PWA Offline Cache)
+   Network First Strategy (ಹೊಸ ಫೈಲ್‌ಗಳು ಯಾವಾಗಲೂ ಲೋಡ್ ಆಗುತ್ತವೆ)
 ========================================================== */
 
-const CACHE_NAME = "sampada-cache-v3";  // v2 -> v3
+const CACHE_NAME = "sampada-cache-v20";  // v10 -> v20 (ಹಳೆಯ cache ಅಳಿಸಲು)
 
 const CACHE_FILES = [
   "./",
@@ -40,22 +41,20 @@ self.addEventListener("activate", function(event){
 self.addEventListener("fetch", function(event){
   if(event.request.method !== "GET") return;
 
+  // Network First: ಮೊದಲು ಇಂಟರ್ನೆಟ್‌ನಿಂದ ಲೋಡ್ ಮಾಡಿ
   event.respondWith(
-    caches.match(event.request).then(function(cached){
-      if(cached) return cached;
-
-      return fetch(event.request).then(function(response){
-        if(response && response.status === 200 && response.type === "basic"){
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(function(cache){
-            cache.put(event.request, copy);
-          });
-        }
-        return response;
-      }).catch(function(){
-        if(event.request.mode === "navigate"){
-          return caches.match("./index.html");
-        }
+    fetch(event.request).then(function(response){
+      if(response && response.status === 200){
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(function(cache){
+          cache.put(event.request, copy);
+        });
+      }
+      return response;
+    }).catch(function(){
+      // ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದಿದ್ದರೆ ಮಾತ್ರ Cache ಬಳಸಿ
+      return caches.match(event.request).then(function(cached){
+        return cached || caches.match("./index.html");
       });
     })
   );
