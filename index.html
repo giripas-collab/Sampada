@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ಸಂಪದ</title>
-<!-- Relative Paths ಸರಿಯಾಗಿ ಕೆಲಸ ಮಾಡಲು Base Tag ಸೇರಿಸಲಾಗಿದೆ -->
-<base href="/" />
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#3730A3">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -274,8 +272,8 @@
     <div class="topbar">
       <div class="brand">ಸಂಪದ</div>
       <div class="top-icons">
-        <div class="icon-btn" onclick="window.location.href='/sampada_categories.html'">🔍</div>
-        <div class="icon-btn" onclick="window.location.href='/ad-submit.html'">📷</div>
+        <div class="icon-btn" onclick="window.location.href='sampada_categories.html'">🔍</div>
+        <div class="icon-btn" onclick="window.location.href='ad-submit.html'">📷</div>
         <div class="icon-btn bell">🔔</div>
       </div>
     </div>
@@ -286,7 +284,7 @@
         <div class="mega">📣</div>
         <h2>ನಿಮ್ಮ ಜಾಹೀರಾತು ಇಲ್ಲಿ ನೀಡಿ</h2>
         <p>ನಿಮ್ಮ ಗ್ರಾಹಕರನ್ನು ತಲುಪಿ</p>
-        <button onclick="window.location.href='/ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
+        <button onclick="window.location.href='ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
       </div>
       <div class="storefront">🏪</div>
       <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
@@ -348,7 +346,7 @@
           <p>ಆಯ್ದ ಬ್ರಾಂಡ್‌ಗಳ ಮೇಲೆ ಇಂದೇ ಶಾಪಿಂಗ್ ಮಾಡಿ</p>
         </div>
       </div>
-      <button onclick="window.location.href='/ad-submit.html'">ಈಗ ನೋಡಿ</button>
+      <button onclick="window.location.href='ad-submit.html'">ಈಗ ನೋಡಿ</button>
       <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
     </div>
 
@@ -571,10 +569,10 @@
   <!-- Bottom Nav -->
   <div class="bottomnav">
     <div class="navitem active" onclick="showView('view-home')"><span class="navic">🏠</span>ಮುಖಪುಟ</div>
-    <div class="navitem" onclick="window.location.href='/sampada_categories.html'"><span class="navic">▦</span>ವಿಭಾಗಗಳು</div>
-    <div class="navitem" onclick="window.location.href='/ad-submit.html'"><span class="navic">➕</span>ಸೇರಿಸಿ</div>
-    <div class="navitem" onclick="window.location.href='/ad-submit.html'"><span class="navic">🔖</span>ಜಾಹೀರಾತು</div>
-    <div class="navitem" onclick="window.location.href='/admin.html'"><span class="navic">👤</span>ಪ್ರೊಫೈಲ್</div>
+    <div class="navitem" onclick="window.location.href='sampada_categories.html'"><span class="navic">▦</span>ವಿಭಾಗಗಳು</div>
+    <div class="navitem" onclick="window.location.href='ad-submit.html'"><span class="navic">➕</span>ಸೇರಿಸಿ</div>
+    <div class="navitem" onclick="window.location.href='ad-submit.html'"><span class="navic">🔖</span>ಜಾಹೀರಾತು</div>
+    <div class="navitem" onclick="window.location.href='admin.html'"><span class="navic">👤</span>ಪ್ರೊಫೈಲ್</div>
   </div>
 
 </div>
@@ -606,6 +604,7 @@ let liveAds = [];
    DYNAMIC POSTS LOADING (FRONT PAGE + INNER PAGES)
 ===================================================== */
 function loadAdminPosts(){
+  // 1. ಆಂತರಿಕ ಪುಟಗಳಿಗೆ (Inner Pages 1 to 6) ಲೋಡ್ ಮಾಡುವುದು
   for(let i=1; i<=6; i++){
     const container = document.getElementById("dynamic-home-" + i);
     if(container){
@@ -623,6 +622,7 @@ function loadAdminPosts(){
     }
   }
 
+  // 2. ಮುಖಪುಟದ ವಿಭಾಗ 3 (ಇಂದು ತಪ್ಪದೇ ನೋಡಿ)
   const scrollSec3 = document.getElementById("home-hscroll-sec-3");
   const postsSec3 = livePosts.filter(p => p.section === "home-3");
   if(scrollSec3){
@@ -640,6 +640,7 @@ function loadAdminPosts(){
     });
   }
 
+  // 3. ಮುಖಪುಟದ ವಿಭಾಗ 4 (ನೋಡಲೇಬೇಕಾದವು)
   const scrollSec4 = document.getElementById("home-hscroll-sec-4");
   const postsSec4 = livePosts.filter(p => p.section === "home-4");
   if(scrollSec4){
@@ -657,6 +658,7 @@ function loadAdminPosts(){
     });
   }
 
+  // 4. ಮುಖಪುಟದ ವಿಭಾಗ 5 (ಪತ್ರಿಕೆ ಲೇಖನಗಳು)
   const articlesSec5 = document.getElementById("dynamic-home-articles");
   const postsSec5 = livePosts.filter(p => p.section === "home-5");
   if(articlesSec5){
@@ -675,6 +677,7 @@ function loadAdminPosts(){
     });
   }
 
+  // 5. ಮುಖಪುಟದ ವಿಭಾಗ 6 (ಮ್ಯೂಸಿಕ್ಸ್)
   const scrollSec6 = document.getElementById("home-hscroll-sec-6");
   const postsSec6 = livePosts.filter(p => p.section === "home-6");
   if(scrollSec6){

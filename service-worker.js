@@ -2,7 +2,7 @@
    ಸಂಪದ — Service Worker (PWA Offline Cache)
 ========================================================== */
 
-const CACHE_NAME = "sampada-cache-v3";
+const CACHE_NAME = "sampada-cache-v2";
 
 const CACHE_FILES = [
   "./",
@@ -54,7 +54,7 @@ self.addEventListener("fetch", function(event){
         return response;
       }).catch(function(){
         if(event.request.mode === "navigate"){
-          return caches.match(event.request) || caches.match("./index.html");
+          return caches.match("./index.html");
         }
       });
     })
