@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ಸಂಪದ - ವಿಷಯ ವಿಭಾಗಗಳು</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-1:#065F46;
+  --blue-2:#059669;
+  --navy:#043D30;
+  --ink:#1E1B2E;
+  --sub:#6B7280;
+  --bg:#F4F8F6;
+  --card:#FFFFFF;
+  --line:#E4ECE8;
+  --soft:#DCFCE7;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:'Noto Sans Kannada','Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  display:flex;
+  justify-content:center;
+}
+.phone{
+  width:420px;
+  max-width:100%;
+  min-height:100vh;
+  background:var(--bg);
+}
+
+.statusbar{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 20px 4px; font-size:13px; font-weight:600; color:#111;
+}
+.statusbar .icons{display:flex; gap:6px; align-items:center; font-size:12px;}
+
+.topbar{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 20px 14px;
+}
+.brand{font-size:30px; font-weight:800; color:var(--blue-1); letter-spacing:.5px;}
+.top-icons{display:flex; gap:12px; align-items:center;}
+.icon-btn{
+  width:38px; height:38px; border-radius:50%; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 1px 5px rgba(0,0,0,.07); cursor:pointer;
+}
+
+.ad-hero{
+  margin:0 16px 18px;
+  background:linear-gradient(135deg, var(--blue-1), var(--blue-2));
+  border-radius:18px; padding:20px; color:#fff; position:relative;
+  overflow:hidden; display:flex; justify-content:space-between; align-items:center; gap:12px;
+}
+.ad-hero:after{
+  content:""; position:absolute; width:130px; height:130px; border-radius:50%;
+  background:rgba(255,255,255,.08); right:-35px; top:-45px;
+}
+.ad-hero-left{ max-width:62%; position:relative; z-index:1; }
+.ad-hero .adh-label{
+  font-size:9px; letter-spacing:1px; background:rgba(255,255,255,.2);
+  display:inline-block; padding:3px 8px; border-radius:20px; font-weight:700; margin-bottom:8px;
+}
+.ad-hero h1{ font-size:17px; font-weight:800; line-height:1.3; }
+.ad-hero p{ font-size:11.5px; margin-top:5px; opacity:.9; }
+.ad-hero button{
+  margin-top:12px; background:var(--navy); color:#fff; border:none;
+  padding:9px 16px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;
+}
+.ad-hero .adh-emoji{ font-size:52px; position:relative; z-index:1; }
+
+.cat-strip{ display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+.cat-strip::-webkit-scrollbar{ display:none; }
+.cat-chip{
+  flex:0 0 88px; background:var(--card); border-radius:14px; padding:14px 8px;
+  text-align:center; box-shadow:0 1px 5px rgba(30,20,80,.06); cursor:pointer;
+}
+.cat-chip .chip-icon{
+  width:42px; height:42px; border-radius:12px; margin:0 auto 8px;
+  display:flex; align-items:center; justify-content:center; font-size:19px; color:#fff;
+}
+.cat-chip .chip-name{ font-size:11.5px; font-weight:700; line-height:1.25; }
+
+.section{ padding:0 16px; margin-bottom:25px; }
+.section-title{ display:flex; align-items:center; gap:8px; margin-bottom:12px; font-size:16px; font-weight:700; }
+.section-title .badge{
+  width:23px; height:23px; border-radius:50%; background:var(--soft);
+  color:var(--blue-1); display:flex; align-items:center; justify-content:center; font-size:12px;
+}
+
+.category-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:11px; }
+.category-card{
+  background:var(--card); border-radius:16px; padding:15px; display:flex;
+  align-items:center; gap:12px; box-shadow:0 1px 5px rgba(30,20,80,.06);
+  cursor:pointer; transition:.2s;
+}
+.category-card:active{ transform:scale(.97); border-color:var(--blue-2); }
+.cat-icon{
+  width:45px; height:45px; border-radius:13px; display:flex;
+  align-items:center; justify-content:center; color:#fff; font-size:21px; flex:0 0 45px;
+}
+.cat-info{ min-width:0; }
+.cat-name{ font-size:13.5px; font-weight:700; }
+.cat-count{ font-size:10.5px; color:var(--sub); margin-top:2px; }
+
+.featured{ background:#fff; border-radius:16px; padding:15px; box-shadow:0 1px 5px rgba(30,20,80,.06); }
+.featured-row{ display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); cursor:pointer; }
+.featured-row:last-child{ border-bottom:none; }
+.featured-icon{
+  width:40px; height:40px; border-radius:11px; background:var(--soft); color:var(--blue-1);
+  display:flex; align-items:center; justify-content:center; font-size:18px; flex:0 0 40px;
+}
+.featured-info{ flex:1; }
+.featured-info h4{ font-size:13px; font-weight:700; }
+.featured-info p{ font-size:10.5px; color:var(--sub); margin-top:2px; }
+.arrow{ color:var(--blue-1); font-size:17px; }
+
+.ad-box{
+  margin:0 16px 25px; background:#E7F5EE; border:1px dashed #A6DFC3;
+  border-radius:16px; padding:16px; position:relative;
+}
+.ad-label{ font-size:9.5px; letter-spacing:1px; color:#4E9273; font-weight:700; margin-bottom:8px; }
+.ad-content{ display:flex; align-items:center; gap:12px; }
+.ad-icon{
+  width:46px; height:46px; border-radius:12px; background:linear-gradient(135deg,var(--blue-1),var(--blue-2));
+  color:#fff; display:flex; align-items:center; justify-content:center; font-size:21px; flex:0 0 46px;
+}
+.ad-text{ flex:1; }
+.ad-text h4{ font-size:13px; font-weight:700; }
+.ad-text p{ font-size:10.5px; color:var(--sub); margin-top:2px; }
+.ad-button{
+  width:100%; border:none; background:var(--navy); color:#fff;
+  padding:10px; border-radius:10px; margin-top:12px; font-size:12.5px; font-weight:700; cursor:pointer;
+}
+
+.popular-list{ display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; }
+.popular-list::-webkit-scrollbar{ display:none; }
+.popular-card{ flex:0 0 145px; background:#fff; border-radius:15px; padding:15px; box-shadow:0 1px 5px rgba(30,20,80,.06); cursor:pointer; }
+.popular-card .big-icon{
+  width:43px; height:43px; border-radius:12px; background:var(--soft); color:var(--blue-1);
+  display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:9px;
+}
+.popular-card h4{ font-size:12.5px; font-weight:700; }
+.popular-card p{ font-size:10.5px; color:var(--sub); margin-top:3px; }
+
+.bottomnav{
+  display:flex; justify-content:space-around; align-items:center; background:#fff;
+  padding:11px 0 18px; border-top:1px solid var(--line); position:sticky; bottom:0; z-index:20;
+}
+.navitem{
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-size:10.5px; color:var(--sub); font-weight:600; cursor:pointer; text-decoration:none;
+}
+.navitem.active{ color:var(--blue-2); }
+.navic{ font-size:19px; }
+
+.view{ display:none; }
+.view.active{ display:block; }
+
+.detail-header{
+  display:flex; align-items:center; gap:12px; margin:0 16px 18px;
+  background:linear-gradient(135deg, var(--blue-1), var(--blue-2));
+  border-radius:18px; padding:18px; color:#fff; position:relative; overflow:hidden;
+}
+.back-btn{
+  width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.18);
+  border:none; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; flex:0 0 36px; cursor:pointer;
+}
+.detail-icon{
+  width:38px; height:38px; border-radius:12px; background:rgba(255,255,255,.18);
+  display:flex; align-items:center; justify-content:center; font-size:19px; flex:0 0 38px;
+}
+.detail-title-wrap h1{ font-size:18px; font-weight:800; }
+.detail-title-wrap p{ font-size:11px; opacity:.85; margin-top:2px; }
+
+.content-block{ background:#fff; border-radius:16px; padding:6px 15px; box-shadow:0 1px 5px rgba(30,20,80,.06); }
+.content-row{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); cursor:pointer; }
+.content-row:last-child{ border-bottom:none; }
+.content-row .row-icon{
+  width:38px; height:38px; border-radius:10px; background:var(--soft); color:var(--blue-1);
+  display:flex; align-items:center; justify-content:center; font-size:16px; flex:0 0 38px;
+}
+.content-row .row-info{ flex:1; min-width:0; }
+.content-row .row-info h5{ font-size:12.5px; font-weight:700; }
+.content-row .row-info p{ font-size:10px; color:var(--sub); margin-top:2px; }
+.content-row .row-go{ font-size:14px; color:var(--sub); flex:0 0 auto; }
+
+.photo-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.photo-grid .photo{ aspect-ratio:1/1; border-radius:10px; background-size:cover; background-position:center; position:relative; }
+
+.social-row{ display:flex; gap:12px; flex-wrap:wrap; }
+.social-chip{
+  display:flex; align-items:center; gap:8px; background:#fff; border-radius:12px;
+  padding:10px 14px; box-shadow:0 1px 5px rgba(30,20,80,.06); font-size:12px; font-weight:700; flex:1 1 45%; cursor:pointer;
+}
+.social-chip .sicon{
+  width:30px; height:30px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; color:#fff; font-size:14px; flex:0 0 30px;
+}
+
+.ad-share-dot{
+  position:absolute; bottom:6px; right:8px; width:15px; height:15px;
+  border-radius:50%; background:rgba(255,255,255,.9); box-shadow:0 1px 3px rgba(0,0,0,.18);
+  display:flex; align-items:center; justify-content:center; font-size:8px; line-height:1; cursor:pointer; z-index:3;
+}
+</style>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+<div class="phone">
+
+  <div id="view-grid" class="view active">
+
+    <div class="statusbar">
+      <span>11:25</span>
+      <span class="icons">📶 4G 🔋 25%</span>
+    </div>
+
+    <div class="topbar">
+      <div class="brand">ಸಂಪದ</div>
+      <div class="top-icons">
+        <div class="icon-btn" onclick="window.location.href='index.html'">🔍</div>
+        <div class="icon-btn" onclick="window.location.href='ad-submit.html'">📢</div>
+      </div>
+    </div>
+
+    <div class="ad-hero" data-ad-slot="category-top">
+      <div class="ad-hero-left">
+        <div class="adh-label">ಜಾಹೀರಾತು • SPONSORED</div>
+        <h1>ನಿಮ್ಮ ಜಾಹೀರಾತು ಇಲ್ಲಿ ನೀಡಿ</h1>
+        <p>ಸಾವಿರಾರು ಓದುಗರನ್ನು ತಲುಪಿ</p>
+        <button onclick="window.location.href='ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
+      </div>
+      <div class="adh-emoji">📢</div>
+      <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="badge">⚡</span> ಬೇಗ ತಲುಪಿ</div>
+      <div class="cat-strip">
+        <div class="cat-chip" onclick="showDetail('politics')"><div class="chip-icon" style="background:#065F46;">🏛️</div><div class="chip-name">ರಾಜಕೀಯ</div></div>
+        <div class="cat-chip" onclick="showDetail('state')"><div class="chip-icon" style="background:#0E7490;">🗺️</div><div class="chip-name">ರಾಜ್ಯ</div></div>
+        <div class="cat-chip" onclick="showDetail('district')"><div class="chip-icon" style="background:#059669;">📍</div><div class="chip-name">ಸ್ಥಳೀಯ</div></div>
+        <div class="cat-chip" onclick="showDetail('jobs')"><div class="chip-icon" style="background:#0891B2;">💼</div><div class="chip-name">ಉದ್ಯೋಗ</div></div>
+        <div class="cat-chip" onclick="showDetail('agri')"><div class="chip-icon" style="background:#16A34A;">🌾</div><div class="chip-name">ಕೃಷಿ</div></div>
+        <div class="cat-chip" onclick="showDetail('sports')"><div class="chip-icon" style="background:#EA580C;">🏃</div><div class="chip-name">ಕ್ರೀಡೆ</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="badge">★</span> ಎಲ್ಲಾ ವಿಭಾಗಗಳು</div>
+      <div class="category-grid">
+        <div class="category-card" onclick="showDetail('politics')"><div class="cat-icon" style="background:#065F46;">🏛️</div><div class="cat-info"><div class="cat-name">ರಾಜಕೀಯ</div><div class="cat-count">126 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('state')"><div class="cat-icon" style="background:#0E7490;">🗺️</div><div class="cat-info"><div class="cat-name">ರಾಜ್ಯ</div><div class="cat-count">98 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('country')"><div class="cat-icon" style="background:#2563EB;">🇮🇳</div><div class="cat-info"><div class="cat-name">ದೇಶ</div><div class="cat-count">84 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('intl')"><div class="cat-icon" style="background:#7C3AED;">🌍</div><div class="cat-info"><div class="cat-name">ಅಂತರರಾಷ್ಟ್ರೀಯ</div><div class="cat-count">65 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('district')"><div class="cat-icon" style="background:#059669;">📍</div><div class="cat-info"><div class="cat-name">ಜಿಲ್ಲೆ / ಸ್ಥಳೀಯ</div><div class="cat-count">143 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('agri')"><div class="cat-icon" style="background:#16A34A;">🌾</div><div class="cat-info"><div class="cat-name">ಕೃಷಿ</div><div class="cat-count">76 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('jobs')"><div class="cat-icon" style="background:#0891B2;">💼</div><div class="cat-info"><div class="cat-name">ಉದ್ಯೋಗ</div><div class="cat-count">51 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('edu')"><div class="cat-icon" style="background:#4F46E5;">🎓</div><div class="cat-info"><div class="cat-name">ಶಿಕ್ಷಣ</div><div class="cat-count">69 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('health')"><div class="cat-icon" style="background:#DC2626;">❤️</div><div class="cat-info"><div class="cat-name">ಆರೋಗ್ಯ</div><div class="cat-count">47 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('business')"><div class="cat-icon" style="background:#D97706;">🏪</div><div class="cat-info"><div class="cat-name">ವ್ಯಾಪಾರ</div><div class="cat-count">58 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('sports')"><div class="cat-icon" style="background:#EA580C;">🏃</div><div class="cat-info"><div class="cat-name">ಕ್ರೀಡೆ</div><div class="cat-count">42 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('entertainment')"><div class="cat-icon" style="background:#DB2777;">🎬</div><div class="cat-info"><div class="cat-name">ಮನರಂಜನೆ</div><div class="cat-count">37 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('tech')"><div class="cat-icon" style="background:#4338CA;">💻</div><div class="cat-info"><div class="cat-name">ತಂತ್ರಜ್ಞಾನ</div><div class="cat-count">32 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('lifestyle')"><div class="cat-icon" style="background:#C026D3;">✨</div><div class="cat-info"><div class="cat-name">ಜೀವನಶೈಲಿ</div><div class="cat-count">29 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('govt')"><div class="cat-icon" style="background:#0284C7;">🏛</div><div class="cat-info"><div class="cat-name">ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</div><div class="cat-count">41 ವಿಷಯಗಳು</div></div></div>
+        <div class="category-card" onclick="showDetail('special')"><div class="cat-icon" style="background:#475569;">📰</div><div class="cat-info"><div class="cat-name">ವಿಶೇಷ ವರದಿ</div><div class="cat-count">23 ವಿಷಯಗಳು</div></div></div>
+      </div>
+    </div>
+
+    <div class="ad-box" data-ad-slot="category-bottom">
+      <div class="ad-label">ಜಾಹೀರಾತು • SPONSORED</div>
+      <div class="ad-content">
+        <div class="ad-icon">🛍</div>
+        <div class="ad-text">
+          <h4>ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಸಾವಿರಾರು ಜನರಿಗೆ ತಲುಪಿಸಿ</h4>
+          <p>ಸಂಪದದಲ್ಲಿ ನಿಮ್ಮ ಜಾಹೀರಾತು ನೀಡಿ</p>
+        </div>
+      </div>
+      <button class="ad-button" onclick="window.location.href='ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
+      <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="badge">🔥</span> ಜನಪ್ರಿಯ ವಿಭಾಗಗಳು</div>
+      <div class="popular-list">
+        <div class="popular-card" onclick="showDetail('politics')"><div class="big-icon">🏛️</div><h4>ರಾಜಕೀಯ</h4><p>ಇಂದು 18 ಹೊಸ ವಿಷಯ</p></div>
+        <div class="popular-card" onclick="showDetail('district')"><div class="big-icon">📍</div><h4>ಸ್ಥಳೀಯ ಸುದ್ದಿ</h4><p>ಇಂದು 14 ಹೊಸ ವಿಷಯ</p></div>
+        <div class="popular-card" onclick="showDetail('jobs')"><div class="big-icon">💼</div><h4>ಉದ್ಯೋಗ</h4><p>ಇಂದು 9 ಹೊಸ ವಿಷಯ</p></div>
+        <div class="popular-card" onclick="showDetail('agri')"><div class="big-icon">🌾</div><h4>ಕೃಷಿ</h4><p>ಇಂದು 8 ಹೊಸ ವಿಷಯ</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="badge">✦</span> ಇಂದು ಹೆಚ್ಚು ಓದಿದವು</div>
+      <div class="featured">
+        <div class="featured-row" onclick="showDetail('state')">
+          <div class="featured-icon">📰</div>
+          <div class="featured-info"><h4>ಕರ್ನಾಟಕದ ಇಂದಿನ ಪ್ರಮುಖ ಸುದ್ದಿಗಳು</h4><p>12.4K ಜನರು ಓದಿದ್ದಾರೆ</p></div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="featured-row" onclick="showDetail('politics')">
+          <div class="featured-icon">🏛️</div>
+          <div class="featured-info"><h4>ರಾಜ್ಯ ರಾಜಕೀಯದಲ್ಲಿ ಇಂದಿನ ಬೆಳವಣಿಗೆ</h4><p>9.8K ಜನರು ಓದಿದ್ದಾರೆ</p></div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="featured-row" onclick="showDetail('agri')">
+          <div class="featured-icon">🌾</div>
+          <div class="featured-info"><h4>ರೈತರಿಗೆ ಉಪಯುಕ್ತವಾದ ಇಂದಿನ ಮಾಹಿತಿ</h4><p>7.2K ಜನರು ಓದಿದ್ದಾರೆ</p></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Detail View (16 Categories) -->
+  <div id="view-detail" class="view">
+    <div class="statusbar"><span>11:25</span><span class="icons">📶 4G 🔋 25%</span></div>
+
+    <div class="detail-header" id="detail-header-bg">
+      <button class="back-btn" onclick="showGrid()">←</button>
+      <div class="detail-icon" id="detail-icon">🏛️</div>
+      <div class="detail-title-wrap">
+        <h1 id="detail-title">ರಾಜಕೀಯ</h1>
+        <p id="detail-count">126 ವಿಷಯಗಳು</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <!-- Category Inner Top Ad -->
+      <div class="ad-box" data-ad-position="top">
+        <div class="ad-label">ಜಾಹೀರಾತು • SPONSORED</div>
+        <div class="ad-content"><div class="ad-icon">🛍</div><div class="ad-text"><h4>ಈ ವಿಭಾಗದಲ್ಲಿ ನಿಮ್ಮ ಜಾಹೀರಾತು ನೀಡಿ</h4><p>ಆಸಕ್ತ ಓದುಗರನ್ನು ನೇರವಾಗಿ ತಲುಪಿ</p></div></div>
+        <button class="ad-button" onclick="window.location.href='ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
+        <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
+      </div>
+
+      <!-- Admin Injected dynamic items -->
+      <div id="dynamicCatList" style="margin-bottom:15px;"></div>
+
+      <!-- 1. YouTube Videos -->
+      <div class="section-title"><span class="badge">▶</span> YouTube Videos</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-icon">▶</div><div class="row-info"><h5>ಇಂದಿನ ಮುಖ್ಯಾಂಶಗಳು – ಪೂರ್ಣ ವಿಡಿಯೋ</h5><p>YouTube · 8:24 ನಿಮಿಷ</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">▶</div><div class="row-info"><h5>ವಿಶ್ಲೇಷಣೆ: ಇಂದಿನ ಬೆಳವಣಿಗೆಗಳು</h5><p>YouTube · 12:05 ನಿಮಿಷ</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">▶</div><div class="row-info"><h5>ಲೈವ್ ಚರ್ಚೆ – ಪರಿಣಿತರ ಅಭಿಪ್ರಾಯ</h5><p>YouTube · 22:10 ನಿಮಿಷ</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 2. Interviews -->
+    <div class="section">
+      <div class="section-title"><span class="badge">🎙️</span> ಸಂದರ್ಶನಗಳು</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-icon">🎙️</div><div class="row-info"><h5>ವಿಶೇಷ ಸಂದರ್ಶನ – ಪ್ರಮುಖ ವ್ಯಕ್ತಿಯೊಂದಿಗೆ</h5><p>YouTube ಸಂದರ್ಶನ</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">🎙️</div><div class="row-info"><h5>ಫೀಲ್ಡ್ ವರದಿ – ನೇರ ಅನುಭವ</h5><p>Website ಸಂದರ್ಶನ</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 3. Articles -->
+    <div class="section">
+      <div class="section-title"><span class="badge">📰</span> ಲೇಖನಗಳು</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-icon">📰</div><div class="row-info"><h5>ಸಂಪೂರ್ಣ ವಿಶ್ಲೇಷಣಾ ಲೇಖನ</h5><p>ಸಂಪದ ವೆಬ್‌ಸೈಟ್ · 5 ನಿಮಿಷ ಓದು</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">📰</div><div class="row-info"><h5>ಇಂದಿನ ಪ್ರಮುಖ ಬೆಳವಣಿಗೆಗಳು</h5><p>ಸುದ್ದಿ ಪಾಲುದಾರ ವೆಬ್‌ಸೈಟ್</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">📰</div><div class="row-info"><h5>ಹಿನ್ನೆಲೆ ವಿವರಣೆ: ಏನಾಗುತ್ತಿದೆ?</h5><p>ಸಂಪದ ವೆಬ್‌ಸೈಟ್ · 7 ನಿಮಿಷ ಓದು</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 4. Photo Gallery -->
+    <div class="section">
+      <div class="section-title"><span class="badge">📸</span> ಫೋಟೋ / ಗ್ಯಾಲರಿ</div>
+      <div class="photo-grid">
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1495020689067-958852a7765e?w=200&h=200&fit=crop');"></div>
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&h=200&fit=crop');"></div>
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop');"></div>
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=200&h=200&fit=crop');"></div>
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=200&h=200&fit=crop');"></div>
+        <div class="photo" style="background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=200&h=200&fit=crop');"></div>
+      </div>
+    </div>
+
+    <!-- Category Inner Middle Ad -->
+    <div class="section">
+      <div class="ad-box" data-ad-position="middle">
+        <div class="ad-label">ಜಾಹೀರಾತು • SPONSORED</div>
+        <div class="ad-content"><div class="ad-icon">📢</div><div class="ad-text"><h4>ಈ ವಿಭಾಗದ ಓದುಗರಿಗೆ ವಿಶೇಷ ಆಫರ್</h4><p>ಇಂದೇ ಪ್ರಚಾರ ಪ್ರಾರಂಭಿಸಿ</p></div></div>
+        <button class="ad-button" onclick="window.location.href='ad-submit.html'">ಈಗ ನೋಡಿ</button>
+        <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
+      </div>
+    </div>
+
+    <!-- 5. Podcast / Audio -->
+    <div class="section">
+      <div class="section-title"><span class="badge">🎧</span> Podcast / Audio</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-icon">🎧</div><div class="row-info"><h5>ಈ ವಾರದ ಪಾಡ್‌ಕಾಸ್ಟ್ ಸಂಚಿಕೆ</h5><p>Audio · 18:40 ನಿಮಿಷ</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">🎧</div><div class="row-info"><h5>ತಜ್ಞರೊಂದಿಗೆ ಸಂವಾದ</h5><p>Audio · 26:15 ನಿಮಿಷ</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 6. PDF / Report -->
+    <div class="section">
+      <div class="section-title"><span class="badge">📄</span> PDF / ವರದಿ</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-icon">📄</div><div class="row-info"><h5>ಸಂಪೂರ್ಣ ವರದಿ – ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</h5><p>PDF · 2.4 MB</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-icon">📄</div><div class="row-info"><h5>ಅಂಕಿಅಂಶಗಳ ಸಾರಾಂಶ</h5><p>PDF · 890 KB</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 7. Other Links -->
+    <div class="section">
+      <div class="section-title"><span class="badge">🔗</span> ಇತರೆ Website Links</div>
+      <div class="content-block">
+        <div class="content-row"><div class="row-info"><h5>ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್</h5><p>official-site.example.com</p></div><div class="row-go">↗</div></div>
+        <div class="content-row"><div class="row-info"><h5>ಸಂಬಂಧಿತ ಮೂಲ ವೆಬ್‌ಸೈಟ್</h5><p>reference-source.example.com</p></div><div class="row-go">↗</div></div>
+      </div>
+    </div>
+
+    <!-- 8. Social Media -->
+    <div class="section">
+      <div class="section-title"><span class="badge">📱</span> Social Media Links</div>
+      <div class="social-row">
+        <div class="social-chip"><div class="sicon" style="background:#FF0000;">▶</div> YouTube</div>
+        <div class="social-chip"><div class="sicon" style="background:#1877F2;">f</div> Facebook</div>
+        <div class="social-chip"><div class="sicon" style="background:#E4405F;">📷</div> Instagram</div>
+        <div class="social-chip"><div class="sicon" style="background:#000000;">𝕏</div> X (Twitter)</div>
+        <div class="social-chip"><div class="sicon" style="background:#25D366;">📞</div> WhatsApp</div>
+        <div class="social-chip"><div class="sicon" style="background:#0088CC;">✈️</div> Telegram</div>
+      </div>
+    </div>
+
+    <!-- Category Inner Bottom Ad -->
+    <div class="section">
+      <div class="ad-box" data-ad-position="bottom">
+        <div class="ad-label">ಜಾಹೀರಾತು • SPONSORED</div>
+        <div class="ad-content"><div class="ad-icon">🎯</div><div class="ad-text"><h4>ಈ ವಿಭಾಗಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಜಾಹೀರಾತು</h4><p>ನಿಮ್ಮ ಬ್ರಾಂಡ್‌ ಇಲ್ಲಿ ಪ್ರದರ್ಶಿಸಿ</p></div></div>
+        <button class="ad-button" onclick="window.location.href='ad-submit.html'">ಜಾಹೀರಾತು ನೀಡಿ</button>
+        <div class="ad-share-dot" onclick="shareAdSlot(event, this.closest('[data-ad-slot]').getAttribute('data-ad-slot'))">🔗</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottomnav">
+    <div class="navitem" onclick="window.location.href='index.html'"><span class="navic">🏠</span>ಮುಖಪುಟ</div>
+    <div class="navitem active" onclick="showGrid()"><span class="navic">▦</span>ವಿಭಾಗಗಳು</div>
+    <div class="navitem" onclick="window.location.href='ad-submit.html'"><span class="navic">🔍</span>ಹುಡುಕಿ</div>
+    <div class="navitem" onclick="window.location.href='ad-submit.html'"><span class="navic">🔖</span>ಉಳಿಸಿದವು</div>
+    <div class="navitem" onclick="window.location.href='admin.html'"><span class="navic">👤</span>ಪ್ರೊಫೈಲ್</div>
+  </div>
+
+</div>
+
+<script>
+// Firebase Init
+const firebaseConfig = {
+  apiKey: "AIzaSyDUkKjJUCBvcS_GTZTHQ-DFjoUyBfjQylE",
+  authDomain: "sampada-b2c14.firebaseapp.com",
+  projectId: "sampada-b2c14",
+  storageBucket: "sampada-b2c14.firebasestorage.app",
+  messagingSenderId: "964305828684",
+  appId: "1:964305828684:web:7087d5535a96d926812de9",
+  measurementId: "G-H39TDW97PG"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let livePosts = [];
+let liveAds = [];
+let currentOpenCatId = null;
+
+var categories = {
+  politics:      { name:'ರಾಜಕೀಯ',                icon:'🏛️', count:'126 ವಿಷಯಗಳು', c1:'#065F46', c2:'#059669' },
+  state:         { name:'ರಾಜ್ಯ',                  icon:'🗺️', count:'98 ವಿಷಯಗಳು',  c1:'#0E7490', c2:'#22D3EE' },
+  country:       { name:'ದೇಶ',                    icon:'🇮🇳', count:'84 ವಿಷಯಗಳು',  c1:'#1D4ED8', c2:'#3B82F6' },
+  intl:          { name:'ಅಂತರರಾಷ್ಟ್ರೀಯ',         icon:'🌍', count:'65 ವಿಷಯಗಳು',  c1:'#6D28D9', c2:'#A78BFA' },
+  district:      { name:'ಜಿಲ್ಲೆ / ಸ್ಥಳೀಯ',       icon:'📍', count:'143 ವಿಷಯಗಳು', c1:'#047857', c2:'#34D399' },
+  agri:          { name:'ಕೃಷಿ',                   icon:'🌾', count:'76 ವಿಷಯಗಳು',  c1:'#15803D', c2:'#4ADE80' },
+  jobs:          { name:'ಉದ್ಯೋಗ',                 icon:'💼', count:'51 ವಿಷಯಗಳು',  c1:'#0369A1', c2:'#38BDF8' },
+  edu:           { name:'ಶಿಕ್ಷಣ',                 icon:'🎓', count:'69 ವಿಷಯಗಳು',  c1:'#4338CA', c2:'#818CF8' },
+  health:        { name:'ಆರೋಗ್ಯ',                 icon:'❤️', count:'47 ವಿಷಯಗಳು',  c1:'#B91C1C', c2:'#F87171' },
+  business:      { name:'ವ್ಯಾಪಾರ',               icon:'🏪', count:'58 ವಿಷಯಗಳು',  c1:'#B45309', c2:'#FBBF24' },
+  sports:        { name:'ಕ್ರೀಡೆ',                 icon:'🏃', count:'42 ವಿಷಯಗಳು',  c1:'#C2410C', c2:'#FB923C' },
+  entertainment: { name:'ಮನರಂಜನೆ',               icon:'🎬', count:'37 ವಿಷಯಗಳು',  c1:'#BE185D', c2:'#F472B6' },
+  tech:          { name:'ತಂತ್ರಜ್ಞಾನ',            icon:'💻', count:'32 ವಿಷಯಗಳು',  c1:'#3730A3', c2:'#6366F1' },
+  lifestyle:     { name:'ಜೀವನಶೈಲಿ',               icon:'✨', count:'29 ವಿಷಯಗಳು',  c1:'#A21CAF', c2:'#E879F9' },
+  govt:          { name:'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',     icon:'🏛', count:'41 ವಿಷಯಗಳು',  c1:'#0369A1', c2:'#38BDF8' },
+  special:       { name:'ವಿಶೇಷ ವರದಿ',            icon:'📰', count:'23 ವಿಷಯಗಳು',  c1:'#334155', c2:'#64748B' }
+};
+
+var catOrder = ['politics','state','country','intl','district','agri','jobs','edu',
+                 'health','business','sports','entertainment','tech','lifestyle','govt','special'];
+
+function showDetail(id){
+  currentOpenCatId = id;
+  var cat = categories[id];
+  if(!cat) return;
+  document.getElementById('detail-title').textContent = cat.name;
+  document.getElementById('detail-icon').textContent = cat.icon;
+  document.getElementById('detail-count').textContent = cat.count;
+  document.getElementById('detail-header-bg').style.background =
+    'linear-gradient(135deg,' + cat.c1 + ',' + cat.c2 + ')';
+
+  document.getElementById('view-grid').classList.remove('active');
+  document.getElementById('view-detail').classList.add('active');
+  window.scrollTo(0,0);
+
+  var catNum = catOrder.indexOf(id) + 1;
+  if(catNum > 0){
+    document.querySelectorAll('#view-detail [data-ad-position]').forEach(function(box){
+      var pos = box.getAttribute('data-ad-position');
+      box.setAttribute('data-ad-slot', 'category-inner-' + catNum + '-' + pos);
+      delete box.dataset.origHtml;
+    });
+
+    renderCurrentCategoryPosts();
+  }
+  refreshAllAds();
+}
+
+function renderCurrentCategoryPosts(){
+  if(!currentOpenCatId) return;
+  var catNum = catOrder.indexOf(currentOpenCatId) + 1;
+  const catPosts = livePosts.filter(p => p.section === 'category-' + catNum);
+  const dynBox = document.getElementById("dynamicCatList");
+  if(dynBox){
+    dynBox.innerHTML = "";
+    if(catPosts.length > 0){
+      let html = '<div class="section-title"><span class="badge">🆕</span> ಹೊಸದಾಗಿ ಸೇರಿಸಿದ ವಿಷಯಗಳು</div><div class="content-block">';
+      catPosts.forEach(p => {
+        html += `
+          <div class="content-row" onclick="${p.url ? `window.open('${p.url}','_blank')` : ''}">
+            <div class="row-icon">${p.type === 'video' ? '▶' : (p.type === 'audio' ? '🎵' : (p.type === 'pdf' ? '📄' : '✍️'))}</div>
+            <div class="row-info"><h5>${p.title}</h5><p>${p.description || p.type}</p></div>
+            <div class="row-go">↗</div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      dynBox.innerHTML = html;
+    }
+  }
+}
+
+function showGrid(){
+  currentOpenCatId = null;
+  document.getElementById('view-detail').classList.remove('active');
+  document.getElementById('view-grid').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+var AD_ROTATION_MINUTES = 10;
+var APP_SHARE_LINK = "https://sampada.app";
+
+function getAdsForSlot(slotId){
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  return liveAds.filter(function(ad){
+    if(ad.slot !== slotId) return false;
+    if(ad.status === "Pending" || ad.status === "Expired") return false;
+    if(ad.endDate){
+      var end = new Date(ad.endDate);
+      if(end < today) return false;
+    }
+    return true;
+  });
+}
+
+function pickRotatingAd(list){
+  if(!list.length) return null;
+  var windowIndex = Math.floor(Date.now() / (AD_ROTATION_MINUTES * 60 * 1000));
+  return list[windowIndex % list.length];
+}
+
+function renderAdBox(box){
+  var slot = box.getAttribute("data-ad-slot");
+  if(!slot) return;
+
+  if(box.dataset.origHtml === undefined){
+    box.dataset.origHtml = box.innerHTML;
+  }
+
+  var ad = pickRotatingAd(getAdsForSlot(slot));
+
+  if(!ad){
+    box.innerHTML = box.dataset.origHtml;
+    box.onclick = null;
+    box.style.cursor = "";
+    return;
+  }
+
+  var titleEl = box.querySelector("h1,h2,h4,h5");
+  var descEl  = titleEl ? titleEl.nextElementSibling : null;
+
+  if(titleEl) titleEl.textContent = ad.name || ("ಜಾಹೀರಾತು — " + (ad.advertiser || ""));
+  if(descEl && descEl.tagName === "P"){
+    descEl.textContent = ad.advertiser ? ("ಜಾಹಿರಾತುದಾರರು: " + ad.advertiser) : "";
+  }
+
+  box.onclick = function(e){
+    if(e.target.closest(".ad-share-dot")) return;
+    if(ad.url) window.open(ad.url, "_blank");
+  };
+  box.style.cursor = ad.url ? "pointer" : "";
+}
+
+function refreshAllAds(){
+  document.querySelectorAll("[data-ad-slot]").forEach(renderAdBox);
+}
+
+function shareAdSlot(evt, slotId){
+  if(evt) evt.stopPropagation();
+  var ad = pickRotatingAd(getAdsForSlot(slotId));
+  var adLine = ad
+    ? ((ad.name || "ಜಾಹೀರಾತು") + (ad.advertiser ? " — " + ad.advertiser : "") + (ad.url ? "\n" + ad.url : ""))
+    : "ಸಂಪದ ಆ್ಯಪ್‌ನಲ್ಲಿ ಜಾಹೀರಾತು ನೀಡಿ";
+
+  var shareText = adLine + "\n\n📲 ಸಂಪದ ಆ್ಯಪ್‌ನಲ್ಲಿ ನೋಡಿ: " + APP_SHARE_LINK;
+
+  if(navigator.share){
+    navigator.share({ title:"ಸಂಪದ", text:shareText, url:APP_SHARE_LINK }).catch(function(){});
+  } else {
+    var wa = "https://wa.me/?text=" + encodeURIComponent(shareText);
+    window.open(wa, "_blank");
+  }
+}
+
+// REALTIME LISTENERS
+db.collection("sampadaPosts").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+  livePosts = [];
+  snapshot.forEach(doc => livePosts.push(doc.data()));
+  renderCurrentCategoryPosts();
+});
+
+db.collection("sampadaAds").where("status", "==", "Approved").onSnapshot(snapshot => {
+  liveAds = [];
+  snapshot.forEach(doc => liveAds.push(doc.data()));
+  refreshAllAds();
+});
+
+setInterval(refreshAllAds, 30000);
+</script>
+</body>
+</html>

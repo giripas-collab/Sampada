@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ಸಂಪದ — ಜಾಹಿರಾತು ನೀಡಿ</title>
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Kannada",sans-serif;
+  background:#f3f6f4;
+  color:#17352b;
+}
+header{
+  background:#075c45;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+header h1{margin:0;font-size:24px;}
+header p{margin:6px 0 0;font-size:13px;opacity:.9;}
+.container{max-width:700px;margin:auto;padding:18px;}
+.card{
+  background:white;border-radius:14px;padding:20px;margin-bottom:18px;
+  box-shadow:0 2px 12px #00000012;
+}
+.card h2{margin-top:0;color:#075c45;font-size:19px;}
+.note{
+  background:#edf7f3;border-left:4px solid #075c45;padding:12px;
+  border-radius:6px;font-size:14px;margin-bottom:18px;
+}
+label{display:block;font-weight:bold;margin:14px 0 6px;}
+input,select,textarea{
+  width:100%;padding:12px;border:1px solid #ccd9d4;
+  border-radius:8px;font-size:14px;background:white;
+}
+textarea{min-height:90px;resize:vertical;}
+.upload-box{
+  border:2px dashed #9bbdb1;border-radius:10px;padding:18px;
+  background:#f7fbf9;text-align:center;
+}
+.upload-box input{border:0;padding:5px;}
+.preview{margin-top:12px;display:none;text-align:center;}
+.preview img{max-width:100%;max-height:220px;border-radius:8px;}
+.rate-box{
+  margin-top:15px;padding:16px;background:#f7fbf9;
+  border:1px solid #cfe0d9;border-radius:10px;
+}
+.rate-row{display:flex;justify-content:space-between;align-items:center;margin:6px 0;}
+.rate-label{font-weight:bold;}
+.rate-value{font-size:20px;font-weight:bold;color:#075c45;}
+.free{color:#2e7d32;}
+.submit{
+  width:100%;border:0;background:#075c45;color:white;
+  padding:14px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:20px;cursor:pointer;
+}
+.submit:hover{background:#064a38;}
+.submit:disabled{opacity:0.6;cursor:not-allowed;}
+.reset{
+  width:100%;border:0;background:#ddd;color:#333;
+  padding:12px;border-radius:8px;margin-top:9px;cursor:pointer;
+}
+.success{
+  display:none;background:#e8f5e9;color:#256029;
+  padding:15px;border-radius:8px;margin-top:15px;font-weight:bold;
+}
+.required{color:#c62828;}
+.small{font-size:12px;color:#666;margin-top:5px;}
+.price-note{
+  background:#fff8e1;border-left:4px solid #e49b18;
+  padding:12px;border-radius:6px;margin-top:12px;font-size:13px;
+}
+.pay-box{
+  margin-top:18px;padding:18px;background:#f7fbf9;
+  border:1.5px solid #075c45;border-radius:12px;text-align:center;
+}
+.pay-box h3{margin:0 0 4px;color:#075c45;font-size:16px;}
+.pay-box .payee{font-size:13px;color:#444;margin-bottom:12px;}
+.pay-box img{width:200px;height:200px;border-radius:8px;background:#fff;padding:6px;border:1px solid #ddd;}
+.upi-row{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:12px;flex-wrap:wrap;
+}
+.upi-id{
+  background:#fff;border:1px solid #cfe0d9;border-radius:8px;
+  padding:8px 12px;font-size:13.5px;font-weight:bold;color:#075c45;}
+.copy-btn{
+  background:#075c45;color:#fff;border:0;border-radius:8px;
+  padding:8px 14px;font-size:13px;font-weight:bold;cursor:pointer;
+}
+.copy-btn.copied{background:#2e7d32;}
+.pay-amount{font-size:14px;margin-top:10px;color:#17352b;}
+.pay-amount b{color:#e49b18;font-size:16px;}
+.pay-note{font-size:12px;color:#666;margin-top:10px;line-height:1.5;}
+</style>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+<header>
+  <h1>📢 ಸಂಪದ</h1>
+  <p>ನಿಮ್ಮ ಜಾಹಿರಾತನ್ನು ಸಂಪದದಲ್ಲಿ ನೀಡಿ</p>
+</header>
+
+<div class="container">
+<div class="card">
+  <h2>📢 ಜಾಹಿರಾತು ಸಲ್ಲಿಸಿ</h2>
+  <div class="note">
+    ನಿಮ್ಮ ಜಾಹಿರಾತಿನ ವಿವರಗಳನ್ನು ಕೆಳಗೆ ಭರ್ತಿ ಮಾಡಿ. ಜಾಹಿರಾತು ಮೊದಲು Admin ಪರಿಶೀಲನೆಗೆ ಹೋಗುತ್ತದೆ. Admin ಅನುಮೋದಿಸಿದ ನಂತರ ಮಾತ್ರ ಜಾಹಿರಾತು App ನಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.
+  </div>
+
+  <label>ಜಾಹಿರಾತುದಾರರ ಹೆಸರು <span class="required">*</span></label>
+  <input id="advertiser" type="text" placeholder="ನಿಮ್ಮ ಹೆಸರು">
+
+  <label>ಮೊಬೈಲ್ ನಂಬರ್ <span class="required">*</span></label>
+  <input id="mobile" type="tel" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+
+  <label>ವ್ಯವಹಾರ / ಸಂಸ್ಥೆಯ ಹೆಸರು</label>
+  <input id="businessName" type="text" placeholder="Shop / Company / Business Name">
+
+  <label>ಜಾಹಿರಾತಿನ ಶೀರ್ಷಿಕೆ <span class="required">*</span></label>
+  <input id="adName" type="text" placeholder="ಉದಾ: ಶ್ರೀ ಲಕ್ಷ್ಮಿ ಜುವೆಲ್ಲರ್ಸ್">
+
+  <label>ಜಾಹಿರಾತಿನ ವಿವರಣೆ</label>
+  <textarea id="description" placeholder="ನಿಮ್ಮ ಜಾಹಿರಾತಿನ ಬಗ್ಗೆ ಚಿಕ್ಕ ವಿವರಣೆ..."></textarea>
+
+  <label>ಜಾಹಿರಾತಿನ Banner / Image <span class="required">*</span></label>
+  <div class="upload-box">
+    <input type="file" id="adFile" accept="image/*" onchange="previewImage()">
+    <p class="small">JPG / PNG / WEBP Image ಆಯ್ಕೆ ಮಾಡಿ (Max 1MB)</p>
+    <div id="preview" class="preview"><img id="previewImage"></div>
+  </div>
+
+  <label>ಜಾಹಿರಾತು Link</label>
+  <input id="adUrl" type="url" placeholder="https://example.com">
+
+  <label>ಜಾಹಿರಾತು ಕಾಣಬೇಕಾದ ಸ್ಥಳ <span class="required">*</span></label>
+  <select id="adSlot" onchange="showRate()"></select>
+
+  <div id="rateBox" class="rate-box" style="display:none">
+    <div class="rate-row"><span class="rate-label">ಆಯ್ಕೆ ಮಾಡಿದ ಜಾಗ</span><span id="selectedSlot">-</span></div>
+    <div class="rate-row"><span class="rate-label">ಅವಧಿ</span><span>ಗರಿಷ್ಠ 10 ದಿನ</span></div>
+    <div class="rate-row"><span class="rate-label">ಜಾಹಿರಾತಿನ ದರ</span><span id="adRate" class="rate-value">₹0</span></div>
+  </div>
+
+  <div class="price-note">
+    💡 <strong>ಸೂಚನೆ:</strong> Category Inner Bottom ಉಚಿತ.
+  </div>
+
+  <div class="pay-box">
+    <h3>💳 ಪಾವತಿ ಮಾಡಿ (UPI)</h3>
+    <div class="payee">Girish Brahmashettar</div>
+    <img id="upiQR" alt="UPI QR Code">
+    <div class="upi-row">
+      <span class="upi-id" id="upiIdText">giricoolgili@okhdfcbank</span>
+      <button type="button" class="copy-btn" id="copyUpiBtn" onclick="copyUpiId()">📋 Copy</button>
+    </div>
+    <div class="pay-amount" id="payAmountLine" style="display:none">ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <b id="payAmountValue">₹0</b></div>
+    <div class="pay-note">ಮೇಲಿನ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಅಥವಾ UPI ID ಬಳಸಿ ಪಾವತಿ ಮಾಡಿ, ನಂತರ ಕೆಳಗಿನ ಫಾರಂ ಭರ್ತಿ ಮಾಡಿ ಜಾಹಿರಾತು ಸಲ್ಲಿಸಿ. Payment screenshot ಅನ್ನು WhatsApp ಮೂಲಕ ಕಳುಹಿಸಿ.</div>
+  </div>
+
+  <label>ಜಾಹಿರಾತು ಪ್ರಾರಂಭವಾಗುವ ದಿನ</label>
+  <input id="startDate" type="date">
+
+  <label>ಜಾಹಿರಾತು ಮುಗಿಯುವ ದಿನ</label>
+  <input id="endDate" type="date">
+
+  <button class="submit" id="submitBtn" onclick="submitAdvertisement()">📤 ಜಾಹಿರಾತು ಸಲ್ಲಿಸಿ</button>
+  <button class="reset" onclick="resetForm()">Clear</button>
+
+  <div id="success" class="success">
+    ✅ ನಿಮ್ಮ ಜಾಹಿರಾತು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. Admin ಪರಿಶೀಲಿಸಿದ ನಂತರ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ.
+  </div>
+</div>
+</div>
+
+<script>
+// Firebase Init
+const firebaseConfig = {
+  apiKey: "AIzaSyDUkKjJUCBvcS_GTZTHQ-DFjoUyBfjQylE",
+  authDomain: "sampada-b2c14.firebaseapp.com",
+  projectId: "sampada-b2c14",
+  storageBucket: "sampada-b2c14.firebasestorage.app",
+  messagingSenderId: "964305828684",
+  appId: "1:964305828684:web:7087d5535a96d926812de9",
+  measurementId: "G-H39TDW97PG"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const AD_RATES = {
+  "home-top": 999, "home-bottom": 699, "category-top": 699, "category-bottom": 499
+};
+const SLOT_NAMES = {
+  "home-top": "Home Page — Top", "home-bottom": "Home Page — Bottom",
+  "category-top": "Category Page — Top", "category-bottom": "Category Page — Bottom"
+};
+
+for(let i=1;i<=6;i++){
+  AD_RATES[`home-inner-${i}-top`] = 599;
+  AD_RATES[`home-inner-${i}-middle`] = 499;
+  AD_RATES[`home-inner-${i}-bottom`] = 399;
+  SLOT_NAMES[`home-inner-${i}-top`] = `Home Inner ${i} — Top`;
+  SLOT_NAMES[`home-inner-${i}-middle`] = `Home Inner ${i} — Middle`;
+  SLOT_NAMES[`home-inner-${i}-bottom`] = `Home Inner ${i} — Bottom`;
+}
+
+for(let i=1;i<=16;i++){
+  AD_RATES[`category-inner-${i}-top`] = 499;
+  AD_RATES[`category-inner-${i}-middle`] = 399;
+  AD_RATES[`category-inner-${i}-bottom`] = 0;
+  SLOT_NAMES[`category-inner-${i}-top`] = `Category Inner ${i} — Top`;
+  SLOT_NAMES[`category-inner-${i}-middle`] = `Category Inner ${i} — Middle`;
+  SLOT_NAMES[`category-inner-${i}-bottom`] = `Category Inner ${i} — Bottom (Free)`;
+}
+
+const select = document.getElementById("adSlot");
+select.innerHTML = '<option value="">-- ಜಾಹಿರಾತಿನ ಸ್ಥಳ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+for(let k in SLOT_NAMES){
+  select.innerHTML += `<option value="${k}">${SLOT_NAMES[k]}</option>`;
+}
+
+function formatDate(date){
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth()+1).padStart(2,"0");
+  const dd = String(date.getDate()).padStart(2,"0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+const today = new Date();
+document.getElementById("startDate").value = formatDate(today);
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate()+10);
+document.getElementById("endDate").max = formatDate(maxDate);
+
+function showRate(){
+  const slot = document.getElementById("adSlot").value;
+  const rateBox = document.getElementById("rateBox");
+  const rate = AD_RATES[slot];
+  if(!slot){ rateBox.style.display="none"; updateUpiQR(0); return; }
+  rateBox.style.display="block";
+  document.getElementById("selectedSlot").innerText = SLOT_NAMES[slot];
+  const rateElement = document.getElementById("adRate");
+  if(rate === 0){
+    rateElement.innerText = "ಉಚಿತ";
+    rateElement.className = "rate-value free";
+  } else {
+    rateElement.innerText = "₹" + rate.toLocaleString("en-IN");
+    rateElement.className = "rate-value";
+  }
+  updateUpiQR(rate);
+}
+
+const UPI_ID = "giricoolgili@okhdfcbank";
+const UPI_PAYEE_NAME = "Girish Brahmashettar";
+
+function buildUpiLink(amount){
+  let link = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE_NAME)}&cu=INR`;
+  if(amount && amount > 0){
+    link += `&am=${amount}`;
+  }
+  return link;
+}
+
+function updateUpiQR(amount){
+  const link = buildUpiLink(amount);
+  const qrImg = document.getElementById("upiQR");
+  qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(link);
+
+  const amountLine = document.getElementById("payAmountLine");
+  const amountValue = document.getElementById("payAmountValue");
+  if(amount && amount > 0){
+    amountValue.innerText = "₹" + amount.toLocaleString("en-IN");
+    amountLine.style.display = "block";
+  } else {
+    amountLine.style.display = "none";
+  }
+}
+
+function copyUpiId(){
+  const btn = document.getElementById("copyUpiBtn");
+  const finish = () => {
+    const original = "📋 Copy";
+    btn.innerText = "✅ Copied";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.innerText = original; btn.classList.remove("copied"); }, 1800);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(UPI_ID).then(finish).catch(finish);
+  } else {
+    finish();
+  }
+}
+
+updateUpiQR(0);
+
+let base64Image = "";
+function previewImage(){
+  const file = document.getElementById("adFile").files[0];
+  const preview = document.getElementById("preview");
+  const image = document.getElementById("previewImage");
+  if(!file){ preview.style.display="none"; return; }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    base64Image = e.target.result;
+    image.src = base64Image;
+    preview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitAdvertisement(){
+  const advertiser = document.getElementById("advertiser").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const businessName = document.getElementById("businessName").value.trim();
+  const adName = document.getElementById("adName").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const url = document.getElementById("adUrl").value.trim();
+  const slot = document.getElementById("adSlot").value;
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  if(!advertiser || !/^[0-9]{10}$/.test(mobile) || !adName || !slot){
+    alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಅಗತ್ಯ ವಿವರಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
+    return;
+  }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.innerText = "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ...";
+
+  const rate = AD_RATES[slot];
+  const ad = {
+    advertiser: advertiser,
+    mobile: mobile,
+    businessName: businessName,
+    name: adName,
+    description: description,
+    url: url,
+    slot: slot,
+    slotName: SLOT_NAMES[slot],
+    image: base64Image,
+    rate: rate,
+    startDate: startDate,
+    endDate: endDate || formatDate(maxDate),
+    status: "Pending",
+    createdAt: new Date().toISOString()
+  };
+
+  try{
+    await db.collection("sampadaAds").add(ad);
+    document.getElementById("success").style.display = "block";
+    alert("✅ ಜಾಹಿರಾತು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. Admin ಪರಿಶೀಲಿಸಿದ ನಂತರ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ.");
+    resetForm();
+  }catch(err){
+    console.error(err);
+    alert("ದೋಷ: ಜಾಹೀರಾತು ಸಲ್ಲಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ.");
+  }finally{
+    btn.disabled = false;
+    btn.innerText = "📤 ಜಾಹಿರಾತು ಸಲ್ಲಿಸಿ";
+  }
+}
+
+function resetForm(){
+  document.getElementById("advertiser").value="";
+  document.getElementById("mobile").value="";
+  document.getElementById("businessName").value="";
+  document.getElementById("adName").value="";
+  document.getElementById("description").value="";
+  document.getElementById("adUrl").value="";
+  document.getElementById("adSlot").value="";
+  document.getElementById("adFile").value="";
+  document.getElementById("preview").style.display="none";
+  document.getElementById("rateBox").style.display="none";
+  base64Image = "";
+}
+</script>
+</body>
+</html>
